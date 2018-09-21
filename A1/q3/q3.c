@@ -2,7 +2,7 @@
 #include <omp.h>
 
 // variables
-#define N 1000000
+#define N 1000
 #define A 2
 double X[N];
 double Y[N];

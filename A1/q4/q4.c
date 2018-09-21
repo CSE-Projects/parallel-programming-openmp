@@ -2,9 +2,9 @@
 #include <omp.h>
 
 // variables
-#define N 1000
-#define M 1000
-#define K 1000
+#define N 500
+#define M 500
+#define K 500
 double A[N][M];
 double B[M][K];
 double C[N][K];
