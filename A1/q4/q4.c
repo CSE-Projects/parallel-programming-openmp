@@ -38,7 +38,8 @@ double matrixMulParallel(long nthreads) {
     double start_time = omp_get_wtime();
     // =================
     #pragma omp parallel num_threads(nthreads) 
-    {   
+    { 
+        #pragma omp for  
         for (long i = 0; i < N; i++) {
             for (long k = 0; k < K; k++) {
                 C[i][k] = 0;

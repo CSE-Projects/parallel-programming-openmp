@@ -33,16 +33,16 @@ double piParallel(long nthreads) {
     step = 1.0/(double)num_steps;
     #pragma omp parallel num_threads(nthreads) 
     {
-        double partial_sum, x;
+        double partial_sum = 0, x;
         long i, id;
         id = omp_get_thread_num();
         // calculation
         for(i = id; i < num_steps; i += nthreads) {
             x = (i + 0.5) * step;
-            partial_sum = 4.0/(1.0+ x*x);
-            #pragma omp critical
-            sum = sum + partial_sum;
+            partial_sum += 4.0/(1.0+ x*x);
         }
+        #pragma omp critical
+        sum = sum + partial_sum;
     }
     pi = step * sum;
     // =================

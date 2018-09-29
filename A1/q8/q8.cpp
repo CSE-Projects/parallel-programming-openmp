@@ -41,14 +41,15 @@ int main()
 
     // Default flag is kept false
 	bool flag = false;
+	bool flag_tmp;
 
     // Allocating memory
     array = new long double[NUM];
 
     // Initializing the timer
 	runtime = omp_get_wtime();
-    omp_set_num_threads(2);
-	#pragma omp parallel shared(array,sum,flag)
+    omp_set_num_threads(4);
+	#pragma omp parallel shared(array,sum,flag) private(flag_tmp)
 	{
 		#pragma omp sections
 		{
@@ -56,17 +57,17 @@ int main()
 			{
 				fill_rand(NUM,array);
 				#pragma omp flush
+				#pragma omp atomic write 
 				flag = true;
-				if(flag==true)
-				{
-					#pragma omp flush(flag)
-				}
+				#pragma omp flush(flag)
 			}
 			#pragma omp section
 			{
-				while (flag==false)
-				{
-					#pragma omp flush(flag)
+				while (1) {
+					#pragma omp flush(flag)	
+					#pragma omp atomic read
+					flag_tmp = flag;
+					if (flag_tmp == true) break;
 				}
 				#pragma omp flush
 				sum = Sum_array(NUM,array);

@@ -39,7 +39,6 @@ double piParallel(long nthreads) {
                 x = (i + 0.5) * step;
                 sum = sum + 4.0/(1.0+ x*x);
             }
-            pi = step * sum;
     }
     pi = step * sum;
     // =================
